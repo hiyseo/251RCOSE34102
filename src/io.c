@@ -40,7 +40,7 @@ void update_waiting_queue(int current_time){
 
     for(int i=0; i<size; i++){
         Process* p = dequeue(&waiting_queue);
-        if(p->arrival_time <= current_time){
+        if(p->arrival_time <= current_time){ // I/O가 완료되어 ready queue로 돌아갈 수 있는 경우
             if(p->remaining_time>0){
                 enqueue(&ready_queue, p);
                 printf("time %d: Process %d completes I/O and returns to Ready Queue\n", current_time, p->pid);

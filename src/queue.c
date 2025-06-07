@@ -96,7 +96,7 @@ void clean_ready_queue() {
             }
 
             curr = curr->next;
-            free(to_delete);
+            free(to_delete); // 메모리 해제
         } else {
             prev = curr;
             curr = curr->next;

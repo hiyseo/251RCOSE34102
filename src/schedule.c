@@ -23,13 +23,12 @@ void run_fcfs(Process* plist, int n){
             }
         }
 
-        // I/O 완료 프로세스 복귀
-        update_waiting_queue(time);
+        update_waiting_queue(time); // I/O 완료 프로세스 복귀
         print_ready_queue_state(time);
 
         // 실행 중 프로세스가 I/O 요청하면 NULL 처리
         if (current) {
-            bool io_requested = check_io_request(current, time);
+            bool io_requested = check_io_request(current, time); // I/O 요청 확인
             if (io_requested) {
                 current = NULL;
             }
@@ -40,7 +39,7 @@ void run_fcfs(Process* plist, int n){
             current = dequeue(&ready_queue);
             if (current->remaining_time > 0) {
                 if (time > current->arrival_time) {
-                    current->waiting_time += time - current->arrival_time;
+                    current->waiting_time += time - current->arrival_time; // 대기시간 계산
                 }
                 printf("time %d: Process %d starts executing\n", time, current->pid);
             } else {
@@ -83,12 +82,12 @@ void run_sjf(Process* plist, int n) {
             }
         }
 
-        update_waiting_queue(time);
+        update_waiting_queue(time); // I/O 완료 프로세스 복귀
         print_ready_queue_state(time);
 
         // 실행 중 프로세스가 I/O 요청하면 NULL 처리
         if (current) {
-            bool io_requested = check_io_request(current, time);
+            bool io_requested = check_io_request(current, time); // I/O 요청 확인
             if (io_requested) {
                 current = NULL;
             }
@@ -98,7 +97,7 @@ void run_sjf(Process* plist, int n) {
         if (!current && !is_empty(&ready_queue)) {
             current = get_shortest_process_and_remove(time);
             if (current) {
-                if (time > current->arrival_time) {
+                if (time > current->arrival_time) { // current->arrival_time: 프로세스가 ready queue에 들어온 시간
                     current->waiting_time += time - current->arrival_time;
                 }
                 printf("time %d: Process %d starts executing\n", time, current->pid);
@@ -154,7 +153,7 @@ void run_preemptive_sjf(Process* plist, int n) {
         // 매 시간마다 가장 짧은 job 선택
         Process* shortest = get_shortest_process_in_ready_queue(time);
 
-        if (shortest && shortest != current) {
+        if (shortest && shortest != current) { // 새로 선택된 프로세스가 현재 실행 중인 프로세스와 다를 때
             if (current && current->remaining_time > 0) {
                 enqueue(&ready_queue, current);  // 기존 실행자 다시 큐에 넣음
             }
